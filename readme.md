@@ -1,5 +1,11 @@
 # Piezo Puzzle
 
+## Setup
+
+```
+pre-commit install
+```
+
 ## Build
 
 ```
