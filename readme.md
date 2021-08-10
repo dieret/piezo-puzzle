@@ -1,2 +1,2 @@
-# Pieze Puzzle
+# Piezo Puzzle
 
