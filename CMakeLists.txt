@@ -3,14 +3,14 @@
 
 cmake_minimum_required(VERSION 3.13)
 
-project(uart_basic LANGUAGES C)
+project(piezo_puzzle LANGUAGES C)
 
 set(PRODUCT_NAME main)
 
 # Make sure this is updated proerly
 # ==============================================================================
 
-add_compile_definitions(F_CPU=8000000UL)
+add_compile_definitions(F_CPU=1000000UL)
 add_compile_definitions(BAUDRATE=1200UL)
 
 set(MCU atmega8)
@@ -58,13 +58,13 @@ add_compile_options(
 file(GLOB SRC_FILES "*.c")  # Find all files in src folder
 
 # link_directories(${CMAKE_SOURCE_DIR}/../my_library)
-add_library(uart STATIC ${CMAKE_SOURCE_DIR}/../../my_library/src/uart.c)
-target_include_directories(uart PUBLIC ${CMAKE_SOURCE_DIR}/../../my_library/include/)
-set_target_properties(uart PROPERTIES LINKER_LANGUAGE C)
+# add_library(uart STATIC ${CMAKE_SOURCE_DIR}/../../my_library/src/uart.c)
+# target_include_directories(uart PUBLIC ${CMAKE_SOURCE_DIR}/../../my_library/include/)
+# set_target_properties(uart PROPERTIES LINKER_LANGUAGE C)
 
 # Create one target
 add_executable(${PRODUCT_NAME} ${SRC_FILES})
-target_link_libraries(${PRODUCT_NAME} uart)
+# target_link_libraries(${PRODUCT_NAME} uart)
 
 
 # Rename the output to .elf as we will create multiple files
