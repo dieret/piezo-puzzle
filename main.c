@@ -30,18 +30,17 @@ float **songs[4] = {(float **)song0, (float **)song1, (float **)song2,
 #define SPEAKER_PIN 6
 
 // Audio parameters
-const float FAIL_SOUND_FREQ = 100;
-const float FAIL_SOUND_DUR = 300;
+#define FAIL_SOUND_FREQ 100
+#define FAIL_SOUND_DUR 300
 
-const float BOOT_SOUND_FREQ = 200;
-const float BOOT_SOUND_DUR = 400;
+#define BOOT_SOUND_FREQ 200
+#define BOOT_SOUND_DUR 400
 
-const float MORSE_FREQUENCY = 400;
-
-const float MORSE_DOT_DURATION = 100;
-const float MORSE_DASH_DURATION = 3 * MORSE_DOT_DURATION;
-const float MORSE_SHORT_GAP = 3 * MORSE_DOT_DURATION;
-const float MORSE_MEDIUM_GAP = 7 * MORSE_DOT_DURATION;
+#define MORSE_FREQUENCY 400
+#define MORSE_DOT_DURATION 100
+#define MORSE_DASH_DURATION 3 * MORSE_DOT_DURATION
+#define MORSE_SHORT_GAP 3 * MORSE_DOT_DURATION
+#define MORSE_MEDIUM_GAP 7 * MORSE_DOT_DURATION
 
 // Riddle Parameters
 enum position {
