@@ -22,11 +22,15 @@
 #define F_CPU 1000000UL
 
 const char *alphabet = "**ETIANMSURWDKGOHVF*L*PJBXCYZQ**";
-#define ALPHABET_LENGTH
+#define ALPHABET_LENGTH 32
 
 // PROTOTYPES
 // =============================================================================
 
+/**
+ * freq: Hz
+ * duration: ms
+ */
 void beep(float freq, float duration);
 void single_morse_beep(uint8_t decimal);
 void morse_char(char c);
@@ -41,10 +45,11 @@ int main(void) { initialize_ports(); }
 // FUNCTIONS
 // =============================================================================
 
+// TODO: SHOULD BE ALL INTEGERS AND DELAY_US?
 // Logic from https://www.petervis.com/C/pizo%20speaker/pizo%20speaker.html
 void beep(float freq, float duration) {
 
-  float wavelength = (1 / freq) * 1000;
+  float wavelength = (1 / freq) * 1000; // ms
   uint32_t cycles = duration / wavelength;
   float half_period = wavelength / 2;
 

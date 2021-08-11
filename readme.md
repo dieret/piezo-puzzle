@@ -15,3 +15,7 @@ cmake -S .
 cmake --build .
 cmake --build . --target upload
 ```
+
+## Todo
+
+* Why doesn't the `clang-format` pre-commit hook work?
