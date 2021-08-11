@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
-      run: sudo apt-get install avr-libc avr-gcc
+      run: sudo apt-get install avr-libc gcc-avr
     - name: build
       shell: bash
       run: cmake -S . && cmake --build .
