@@ -22,3 +22,5 @@ repos:
         files: \.(c|cc|cxx|cpp|frag|glsl|h|hpp|hxx|ih|ispc|ipp|java|js|m|mm|proto|textproto|vert)$
 ci:
     autoupdate_schedule: monthly
+    skip:
+    - clang-format
