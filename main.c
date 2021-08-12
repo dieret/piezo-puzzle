@@ -57,10 +57,10 @@ enum position {
 char RIDDLE_MESSAGES[10][3] = {"WHI", "",    "TEN", "",    "SMI",
                                "",    "CAP", "",    "ECC", ""};
 
-const int SOLUTION[5] = {ECC, TEN, SMI, CAP, WHI};
+const int SOLUTION[5] = {WHI, CAP, SMI, TEN, ECC};
 const int SOLUTION_LENGTH = 5;
 
-const int HINT_COMBINATION[4] = {CAP, TEN, WHI, SMI};
+const int HINT_COMBINATION[4] = {SMI, WHI, TEN, CAP};
 const int HINT_LENGTH = 4;
 
 const int MIN_HOVER_TIME = 1000;
