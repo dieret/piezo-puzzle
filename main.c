@@ -184,7 +184,7 @@ void interrupting_delay(float duration, int on_position) {
   while (duration > 1) {
     _delay_ms(1.0);
     duration -= 1.0;
-    if (get_wheel_pos() != on_position)
+    if (on_position >= 0 && get_wheel_pos() != on_position)
       return;
   }
   _delay_ms(duration);
@@ -262,7 +262,7 @@ void morse_message(int k, int on_position) {
   for (int m = 0; RIDDLE_MESSAGES[k][m]; m++) {
     morse_char(RIDDLE_MESSAGES[k][m], on_position);
     interrupting_delay(MORSE_SHORT_GAP, on_position);
-    if (get_wheel_pos() != on_position) {
+    if (on_position >= 0 && get_wheel_pos() != on_position) {
       return;
     }
   }
