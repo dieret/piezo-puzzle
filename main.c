@@ -60,8 +60,8 @@ char RIDDLE_MESSAGES[10][3] = {"WHI", "",    "TEN", "",    "SMI",
 const int SOLUTION[5] = {WHI, CAP, SMI, TEN, ECC};
 const int SOLUTION_LENGTH = 5;
 
-const int HINT_COMBINATION[4] = {SMI, WHI, TEN, CAP};
-const int HINT_LENGTH = 4;
+const int HINT_COMBINATION[5] = {TEN, SMI, WHI, TEN, CAP};
+const int HINT_LENGTH = 5;
 
 const int MIN_HOVER_TIME = 1000;
 
