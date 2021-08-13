@@ -109,25 +109,28 @@ int main(void) {
   while (1) {
     int current_pos = get_wheel_pos();
 
-    if (current_pos != last_position && current_pos % 2 == 0) {
+    if (current_pos != last_position) {
+      // this is done unconditionally and for all wheel positions
+      // to allow replaying hints by moving back and forth quickly
+      last_position = current_pos;
 
-      // wait before registering the new position
-      int hover_ms_count = 0;
-      for (; hover_ms_count < MIN_HOVER_TIME; hover_ms_count++) {
-        _delay_ms(1.0);
-        // cancel if we change wheel while waiting
-        if (get_wheel_pos() != current_pos) {
-          break;
+      // only register even positions
+      if (current_pos % 2 == 0) {
+        // wait before registering the new position
+        int hover_ms_count = 0;
+        for (; hover_ms_count < MIN_HOVER_TIME; hover_ms_count++) {
+          _delay_ms(1.0);
+          // cancel if we change wheel while waiting
+          if (get_wheel_pos() != current_pos) {
+            break;
+          }
+        }
+        // register new position and give audio feedback
+        if (hover_ms_count == MIN_HOVER_TIME) {
+          push_history(history, current_pos);
+          play_audio(history);
         }
       }
-      // register new position
-      if (hover_ms_count == MIN_HOVER_TIME) {
-        push_history(history, current_pos);
-        play_audio(history);
-      }
-      // this is done unconditionally to allow
-      // replaying by moving back and forth quickly
-      last_position = current_pos;
     }
   }
 }
