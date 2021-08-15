@@ -28,7 +28,7 @@ set(PROG_TYPE stk500v2)
 
 # Find port for programmer
 execute_process(COMMAND pavr2cmd --prog-port OUTPUT_VARIABLE PORT OUTPUT_STRIP_TRAILING_WHITESPACE)
-
+message(STATUS "Port for programmer: ${PORT}")
 
 # todo: what are all of these flags doing?
 add_compile_options(
