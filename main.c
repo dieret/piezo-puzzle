@@ -149,16 +149,19 @@ void beep(float freq, float duration, int on_position) {
 
   float wavelength = (1 / freq) * 1000;
   uint32_t cycles = duration / wavelength;
-  float half_period = wavelength / 2;
+  uint16_t half_period_us = 1000 * wavelength / 2;
 
   for (uint32_t i = 0; i < cycles; i++) {
-    _delay_ms(half_period);
+    _delay_us(half_period_us);
     PORT(SPEAKER_PORT) |= (1 << SPEAKER_PIN);
-    _delay_ms(half_period);
+    _delay_us(half_period_us);
     PORT(SPEAKER_PORT) &= ~(1 << SPEAKER_PIN);
 
     // abort if wheel position has changed
-    if (on_position >= 0 && get_wheel_pos() != on_position)
+    // we only check this every 100 times because loading variables and
+    // executing functions might be expensive (note that C support
+    // short circuiting
+    if (i % 100 == 0 && on_position >= 0 && get_wheel_pos() != on_position)
       return;
   }
 
