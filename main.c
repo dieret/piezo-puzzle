@@ -97,10 +97,10 @@ void initialize_ports(void) { DDR(SPEAKER_PORT) |= (1 << SPEAKER_PIN); }
 int main(void) {
   initialize_ports();
 
+  play_boot_sound();
+
   int last_position = get_wheel_pos();
   enum position history[6] = {0, 0, 0, 0, 0, 0};
-
-  play_boot_sound();
 
   // Wait for first wheel change to start riddle
   while (get_wheel_pos() == last_position) {
