@@ -1,3 +1,4 @@
+#define F_CPU 1000000UL
 #include <avr/io.h>
 
 float song0[4][2] = {
@@ -65,8 +66,6 @@ const int HINT_LENGTH = 5;
 
 const int MIN_HOVER_TIME = 1000;
 
-#define F_CPU 1000000UL
-
 const char *alphabet = "**ETIANMSURWDKGOHVF*L*PJBXCYZQ**";
 #define ALPHABET_LENGTH 32
 
@@ -97,6 +96,7 @@ void initialize_ports(void) { DDR(SPEAKER_PORT) |= (1 << SPEAKER_PIN); }
 // =============================================================================
 int main(void) {
   initialize_ports();
+
   int last_position = get_wheel_pos();
   enum position history[6] = {0, 0, 0, 0, 0, 0};
 

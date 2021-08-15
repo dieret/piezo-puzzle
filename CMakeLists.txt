@@ -10,7 +10,6 @@ set(PRODUCT_NAME main)
 # Make sure this is updated proerly
 # ==============================================================================
 
-add_compile_definitions(F_CPU=1000000UL)
 add_compile_definitions(BAUDRATE=1200UL)
 
 set(MCU atmega8)
