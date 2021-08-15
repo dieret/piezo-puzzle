@@ -27,7 +27,7 @@ float **songs[4] = {(float **)song0, (float **)song1, (float **)song2,
 
 // FIXME
 #define SPEAKER_PORT D
-#define SPEAKER_PIN 6
+#define SPEAKER_PIN 2
 
 // Audio parameters
 #define FAIL_SOUND_FREQ 100
