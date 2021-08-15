@@ -149,7 +149,7 @@ void beep(float freq, float duration, int on_position) {
 
   float wavelength = (1 / freq) * 1000;
   uint32_t cycles = duration / wavelength;
-  uint16_t half_period_us = 1000 * wavelength / 2;
+  uint16_t half_period_us = (uint16_t)1000 * wavelength / 2;
 
   for (uint32_t i = 0; i < cycles; i++) {
     _delay_us(half_period_us);
