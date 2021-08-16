@@ -17,6 +17,7 @@ jobs:
     - name: build
       shell: bash
       run: cmake -S . && cmake --build .
+      working-directory: code
     - uses: DoozyX/clang-format-lint-action@v0.12
       with:
-        exclude: './CMakeFiles'
+        exclude: 'code/CMakeFiles'
