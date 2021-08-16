@@ -90,7 +90,16 @@ void morse_char(char c, int on_position);
 
 void push_history(enum position *history, int value);
 
-void initialize_ports(void) { DDR(SPEAKER_PORT) |= (1 << SPEAKER_PIN); }
+/**
+ * Called once at the beginning to set up ports as inputs/outputs
+ */
+void initialize_ports(void);
+
+/**
+ * Play a series of tunes to check that speaker is working correctly. Also used
+ * to calibrated pitch.
+ */
+void sound_test(void);
 
 // MAIN
 // =============================================================================
@@ -138,6 +147,27 @@ int main(void) {
 // FUNCTIONS
 // =============================================================================
 
+void initialize_ports(void) { DDR(SPEAKER_PORT) |= (1 << SPEAKER_PIN); }
+
+void sound_test() {
+  beep(293.665, 500, -1);
+  beep(329.628, 500, -1);
+  beep(369.994, 500, -1);
+  beep(391.995, 500, -1);
+  beep(440.000, 500, -1);
+  beep(493.883, 500, -1);
+  beep(554.365, 500, -1);
+  beep(587.330, 500, -1);
+  beep(622.254, 500, -1);
+  beep(659.255, 500, -1);
+  beep(739.989, 500, -1);
+  beep(783.991, 500, -1);
+  beep(880.000, 500, -1);
+  beep(987.767, 500, -1);
+  beep(1108.731, 500, -1);
+  beep(1174.659, 500, -1);
+}
+
 // Logic from https://www.petervis.com/C/pizo%20speaker/pizo%20speaker.html
 void beep(float freq, float duration, int on_position) {
 
@@ -159,8 +189,7 @@ void beep(float freq, float duration, int on_position) {
 
     // abort if wheel position has changed
     // we only check this every 100 times because loading variables and
-    // executing functions might be expensive (note that C support
-    // short circuiting
+    // executing functions might be expensive
     if (i % 100 == 0 && on_position >= 0 && get_wheel_pos() != on_position)
       return;
   }
