@@ -253,7 +253,6 @@ void interrupting_delay(float duration, int on_position) {
     if (on_position >= 0 && get_wheel_pos() != on_position)
       return;
   }
-  _delay_ms(duration);
   return;
 }
 
