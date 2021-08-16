@@ -30,6 +30,9 @@ float **songs[4] = {(float **)song0, (float **)song1, (float **)song2,
 #define SPEAKER_PORT D
 #define SPEAKER_PIN 2
 
+#define WHEEL_PORT D
+#define WHEEL_MASK ((1 << 4) | (1 << 5) | (1 << 6) | (1 << 7))
+
 // Audio parameters
 #define FAIL_SOUND_FREQ 100
 #define FAIL_SOUND_DUR 300
@@ -101,6 +104,11 @@ void initialize_ports(void);
  */
 void sound_test(void);
 
+/**
+ * Used for debugging: As many beeps as the wheel position indicates
+ */
+void beep_wheel_pos(void);
+
 // MAIN
 // =============================================================================
 int main(void) {
@@ -147,7 +155,21 @@ int main(void) {
 // FUNCTIONS
 // =============================================================================
 
-void initialize_ports(void) { DDR(SPEAKER_PORT) |= (1 << SPEAKER_PIN); }
+void initialize_ports(void) {
+  // Speaker pin is output
+  DDR(SPEAKER_PORT) |= (1 << SPEAKER_PIN);
+  // Wheel pins are input
+  DDR(WHEEL_PORT) &= ~WHEEL_MASK;
+  // Wheel pins use internal pull up
+  PORT(WHEEL_PORT) |= WHEEL_MASK;
+}
+
+void beep_wheel_pos(void) {
+  uint8_t n_beeps = get_wheel_pos() for (uint8_t i = 0; i < n_beeps; i++) {
+    beep(MORSE_FREQUENCY, MORSE_DOT_DURATION, -1);
+    _delay_ms(MORSE_SHORT_GAP);
+  }
+}
 
 void sound_test() {
   beep(293.665, 500, -1);
@@ -300,4 +322,4 @@ void morse_message(int k, int on_position) {
   }
 }
 
-int get_wheel_pos(void) { return 0; }
+uint8_t get_wheel_pos(void) { return PIN(WHEEL_PORT) & WHEEL_MASK }
