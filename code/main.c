@@ -22,6 +22,9 @@ float **songs[4] = {(float **)song0, (float **)song1, (float **)song2,
 
 #include <util/delay.h>
 
+// measured on output for one specific implementation
+#define DELAY_OVERHEAD_US 1320
+
 #define PORT_(port) PORT##port
 #define DDR_(port) DDR##port
 #define PIN_(port) PIN##port
@@ -227,11 +230,12 @@ void beep(float freq, float duration, int on_position) {
   float wavelength = (1 / freq) * 1000;
   uint32_t cycles = (uint32_t)duration / wavelength;
   double half_period_us = (double)1000 * wavelength / 2;
+  double compensated_waiting_time = half_period_us - DELAY_OVERHEAD_US / 2
 
   for (uint32_t i = 0; i < cycles; i++) {
-    _delay_us(half_period_us);
+    _delay_us(compensated_waiting_time);
     PORT(SPEAKER_PORT) |= (1 << SPEAKER_PIN);
-    _delay_us(half_period_us);
+    _delay_us(compensated_waiting_time);
     PORT(SPEAKER_PORT) &= ~(1 << SPEAKER_PIN);
 
     // abort if wheel position has changed
