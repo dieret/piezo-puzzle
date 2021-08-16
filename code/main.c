@@ -83,7 +83,7 @@ const char *alphabet = "**ETIANMSURWDKGOHVF*L*PJBXCYZQ**";
 // =============================================================================
 
 // TODO! Just returns 0 at the moment
-int get_wheel_pos(void);
+uint8_t get_wheel_pos(void);
 
 void interrupting_delay(float ms, int on_position);
 
@@ -172,7 +172,8 @@ void initialize_ports(void) {
 }
 
 void beep_wheel_pos(void) {
-  uint8_t n_beeps = get_wheel_pos() for (uint8_t i = 0; i < n_beeps; i++) {
+  uint8_t n_beeps = get_wheel_pos();
+  for (uint8_t i = 0; i < n_beeps; i++) {
     beep(MORSE_FREQ, MORSE_DOT_DUR, -1);
     _delay_ms(MORSE_SHORT_GAP);
   }
@@ -329,4 +330,4 @@ void morse_message(int k, int on_position) {
   }
 }
 
-uint8_t get_wheel_pos(void) { return PIN(WHEEL_PORT) & WHEEL_MASK }
+uint8_t get_wheel_pos(void) { return PIN(WHEEL_PORT) & WHEEL_MASK; }
