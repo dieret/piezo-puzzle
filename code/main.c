@@ -230,7 +230,7 @@ void beep(float freq, float duration, int on_position) {
   float wavelength = (1 / freq) * 1000;
   uint32_t cycles = (uint32_t)duration / wavelength;
   double half_period_us = (double)1000 * wavelength / 2;
-  double compensated_waiting_time = half_period_us - DELAY_OVERHEAD_US / 2
+  double compensated_waiting_time = half_period_us - DELAY_OVERHEAD_US / 2;
 
   for (uint32_t i = 0; i < cycles; i++) {
     _delay_us(compensated_waiting_time);
