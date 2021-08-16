@@ -16,6 +16,10 @@ float **songs[4] = {(float **)song0, (float **)song1, (float **)song2,
 
 // See https://stackoverflow.com/questions/30422367
 #define __DELAY_BACKWARD_COMPATIBLE__
+// By default, _delay_ms and _delay_us always round up if the delay time isn't
+// a multiple of clock cycles. We don't want that, so
+#define __DELAY_ROUND_CLOSEST__
+
 #include <util/delay.h>
 
 #define PORT_(port) PORT##port
