@@ -91,6 +91,7 @@ uint8_t get_wheel_pos(void);
 
 void interrupting_delay(float ms, int on_position);
 
+void beep_forever(float freq);
 void beep(float freq, float duration, int on_position);
 void play_boot_sound(void);
 void play_fail_sound(int on_position);
@@ -200,6 +201,18 @@ void sound_test() {
   beep(987.767, 500, -1);
   beep(1108.731, 500, -1);
   beep(1174.659, 500, -1);
+}
+
+void beep_forever(float freq) {
+  float wavelength = (1 / freq) * 1000;
+  double half_period_us = (double)1000 * wavelength / 2;
+
+  while (1) {
+    _delay_us(half_period_us);
+    PORT(SPEAKER_PORT) |= (1 << SPEAKER_PIN);
+    _delay_us(half_period_us);
+    PORT(SPEAKER_PORT) &= ~(1 << SPEAKER_PIN);
+  }
 }
 
 // Logic from https://www.petervis.com/C/pizo%20speaker/pizo%20speaker.html
