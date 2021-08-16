@@ -40,11 +40,11 @@ float **songs[4] = {(float **)song0, (float **)song1, (float **)song2,
 #define BOOT_SOUND_FREQ 200
 #define BOOT_SOUND_DUR 400
 
-#define MORSE_FREQUENCY 400
-#define MORSE_DOT_DURATION 100
-#define MORSE_DASH_DURATION 3 * MORSE_DOT_DURATION
-#define MORSE_SHORT_GAP 3 * MORSE_DOT_DURATION
-#define MORSE_MEDIUM_GAP 7 * MORSE_DOT_DURATION
+#define MORSE_FREQ 400
+#define MORSE_DOT_DUR 100
+#define MORSE_DASH_DUR 3 * MORSE_DOT_DUR
+#define MORSE_SHORT_GAP 3 * MORSE_DOT_DUR
+#define MORSE_MEDIUM_GAP 7 * MORSE_DOT_DUR
 
 // Riddle Parameters
 enum position {
@@ -67,8 +67,15 @@ const int SOLUTION_LENGTH = 5;
 const int HINT_COMBINATION[5] = {TEN, SMI, WHI, TEN, CAP};
 const int HINT_LENGTH = 5;
 
+/**
+ * Minimal time that the wheel has to stay in one position for us to act
+ * on it
+ */
 const int MIN_HOVER_TIME = 1000;
 
+/**
+ * Used in implementation of morse code
+ */
 const char *alphabet = "**ETIANMSURWDKGOHVF*L*PJBXCYZQ**";
 #define ALPHABET_LENGTH 32
 
@@ -166,7 +173,7 @@ void initialize_ports(void) {
 
 void beep_wheel_pos(void) {
   uint8_t n_beeps = get_wheel_pos() for (uint8_t i = 0; i < n_beeps; i++) {
-    beep(MORSE_FREQUENCY, MORSE_DOT_DURATION, -1);
+    beep(MORSE_FREQ, MORSE_DOT_DUR, -1);
     _delay_ms(MORSE_SHORT_GAP);
   }
 }
@@ -223,14 +230,14 @@ void beep(float freq, float duration, int on_position) {
 void single_morse_beep(uint8_t decimal, int on_position) {
   if (decimal) {
     single_morse_beep(decimal / 2, on_position);
-    interrupting_delay(MORSE_DOT_DURATION, on_position);
+    interrupting_delay(MORSE_DOT_DUR, on_position);
     if (decimal != 1) {
       if (decimal % 2)
-        beep(MORSE_DASH_DURATION, MORSE_FREQUENCY, on_position);
+        beep(MORSE_DASH_DUR, MORSE_FREQ, on_position);
       else
-        beep(MORSE_DOT_DURATION, MORSE_FREQUENCY, on_position);
+        beep(MORSE_DOT_DUR, MORSE_FREQ, on_position);
     }
-    interrupting_delay(MORSE_DOT_DURATION, on_position);
+    interrupting_delay(MORSE_DOT_DUR, on_position);
   }
 }
 
