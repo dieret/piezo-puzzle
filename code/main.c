@@ -260,12 +260,13 @@ void single_morse_beep(uint8_t decimal, int on_position) {
 }
 
 void interrupting_delay(float duration, int on_position) {
-  while (duration > 1) {
-    _delay_ms(1.0);
-    duration -= 1.0;
+  while (duration > 50) {
+    _delay_ms(50.0);
+    duration -= 50.0;
     if (on_position >= 0 && get_wheel_pos() != on_position)
       return;
   }
+  _delay_ms(duration);
   return;
 }
 
