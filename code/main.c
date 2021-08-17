@@ -11,8 +11,6 @@ float song2[3][2] = {{440.0, 500.0}, {220.0, 500.0}, {0.0, -1.0}};
 
 float hint[2][2] = {{440.0, 500.0}, {0.0, -1.0}};
 
-float **songs[4] = {(float **)song0, (float **)song1, (float **)song2,
-                    (float **)hint};
 #define HINT_SONG_NUMBER 3
 
 // See https://stackoverflow.com/questions/30422367
