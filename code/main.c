@@ -251,7 +251,15 @@ uint8_t main(void) {
           beep(LOCKED_IN_FREQ, LOCKED_IN_DUR, current_pos);
           interrupting_delay(LOCKED_IN_BREAK, current_pos);
 #endif
-          push_history(history, current_pos);
+          // allow playing different songs once the riddle
+          // has been solved: If we move from a song position
+          // to a song position, the (potentially solved)
+          // history is preserved.
+          if (history[0] >= 10 && current_pos >= 10)
+            history[0] = current_pos;
+          else
+            push_history(history, current_pos);
+
           play_audio(history);
         }
       }
