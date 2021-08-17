@@ -280,9 +280,9 @@ void _morse_char(uint8_t decimal, int8_t on_position) {
     interrupting_delay(MORSE_DOT_DUR, on_position);
     if (decimal != 1) {
       if (decimal % 2)
-        beep(MORSE_DASH_DUR, MORSE_FREQ, on_position);
+        beep(MORSE_FREQ, MORSE_DASH_DUR, on_position);
       else
-        beep(MORSE_DOT_DUR, MORSE_FREQ, on_position);
+        beep(MORSE_FREQ, MORSE_DOT_DUR, on_position);
     }
     interrupting_delay(MORSE_DOT_DUR, on_position);
   }
