@@ -34,13 +34,16 @@ float **songs[4] = {(float **)song0, (float **)song1, (float **)song2,
 #define PIN(port) PIN_(port)
 
 // FIXME
-#define SPEAKER_PORT D
-#define SPEAKER_PIN 2
+#define SPEAKER_PORT B
+#define SPEAKER_PIN 1
 
 #define WHEEL_PORT D
 #define WHEEL_MASK ((1 << 4) | (1 << 5) | (1 << 6) | (1 << 7))
 
 // Audio parameters
+// Frequencies are in Hz
+// Durations in ms
+
 #define FAIL_SOUND_FREQ 100
 #define FAIL_SOUND_DUR 300
 
