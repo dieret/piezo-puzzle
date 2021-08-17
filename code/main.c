@@ -104,19 +104,19 @@ char RIDDLE_MESSAGES[10][3] = {"WHI", "",    "TEN", "",    "SMI",
  * The solution to the riddle in reverse (!) order
  */
 const uint8_t SOLUTION[5] = {WHI, CAP, SMI, TEN, ECC};
-#define SOLUTION_LENGTH 5;
+#define SOLUTION_LENGTH 5
 
 /**
  * A combination to play a hint in reverse (!) order
  */
 const uint8_t HINT_COMBINATION[5] = {TEN, SMI, WHI, TEN, CAP};
-#define HINT_LENGTH 5;
+#define HINT_LENGTH 5
 
 /**
  * Minimal time that the wheel has to stay in one position for us to act
  * on it
  */
-#define MIN_HOVER_TIME 1000;
+#define MIN_HOVER_TIME 1000
 
 /**
  * Used in implementation of morse code
