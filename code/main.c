@@ -115,7 +115,7 @@ void play_audio(enum position *history);
 
 void morse_message(uint8_t k, int8_t on_position);
 
-void single_morse_beep(uint8_t decimal, int8_t on_position);
+void _morse_char(uint8_t decimal, int8_t on_position);
 void morse_char(char c, int8_t on_position);
 
 void push_history(enum position *history, uint8_t value);
@@ -274,9 +274,9 @@ void beep(float freq, float duration, int8_t on_position) {
 }
 
 // Logic from https://www.pocketmagic.net/morse-encoder/
-void single_morse_beep(uint8_t decimal, int8_t on_position) {
+void _morse_char(uint8_t decimal, int8_t on_position) {
   if (decimal) {
-    single_morse_beep(decimal / 2, on_position);
+    _morse_char(decimal / 2, on_position);
     interrupting_delay(MORSE_DOT_DUR, on_position);
     if (decimal != 1) {
       if (decimal % 2)
@@ -312,7 +312,7 @@ void morse_char(char c, int8_t on_position) {
   uint8_t i = 0;
   while (alphabet[++i] != c)
     ;
-  single_morse_beep(i, on_position);
+  _morse_char(i, on_position);
 }
 
 void play_boot_sound(void) { beep(BOOT_SOUND_FREQ, BOOT_SOUND_DUR, -1); }
