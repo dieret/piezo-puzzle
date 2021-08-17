@@ -58,6 +58,13 @@ float **songs[4] = {(float **)song0, (float **)song1, (float **)song2,
 #define MORSE_SHORT_GAP 3 * MORSE_DOT_DUR
 #define MORSE_MEDIUM_GAP 7 * MORSE_DOT_DUR
 
+// A quick beep, whenever a wheel position gets locked in (i.e. triggers
+// something)
+#define USE_LOCKED_IN_BEEPS
+#define LOCKED_IN_FREQ 800
+#define LOCKED_IN_DUR 50
+#define LOCKED_IN_BREAK 300
+
 // A long beep when beeping a number corresponds to this number
 #define BEEP_WHEEL_POS_LONG_NUMBER 4
 
@@ -80,9 +87,15 @@ enum position {
 char RIDDLE_MESSAGES[10][3] = {"WHI", "",    "TEN", "",    "SMI",
                                "",    "CAP", "",    "ECC", ""};
 
+/**
+ * The solution to the riddle
+ */
 const uint8_t SOLUTION[5] = {WHI, CAP, SMI, TEN, ECC};
 const uint8_t SOLUTION_LENGTH = 5;
 
+/**
+ * This combination isn't the solution, but will play a hint
+ */
 const uint8_t HINT_COMBINATION[5] = {TEN, SMI, WHI, TEN, CAP};
 const uint8_t HINT_LENGTH = 5;
 
@@ -215,6 +228,10 @@ uint8_t main(void) {
         }
         // register new position and give audio feedback
         if (hover_ms_count == MIN_HOVER_TIME) {
+#ifdef USE_LOCKED_IN_BEEPS
+          beep(LOCKED_IN_FREQ, LOCKED_IN_DUR, current_pos);
+          interrupting_delay(LOCKED_IN_BREAK, current_pos);
+#endif
           push_history(history, current_pos);
           play_audio(history);
         }
@@ -331,12 +348,15 @@ void _morse_char(uint8_t decimal, int8_t on_position) {
 }
 
 void interrupting_delay(float duration, int8_t on_position) {
+  // Only check whether to abort every 50 ms to avoid distortion of time due to
+  // time it takes to check variables.
   while (duration > 50) {
     _delay_ms(50.0);
     duration -= 50.0;
     if (on_position >= 0 && get_wheel_pos() != on_position)
       return;
   }
+  // wait leftover duration
   _delay_ms(duration);
   return;
 }
