@@ -37,8 +37,10 @@ float **songs[4] = {(float **)song0, (float **)song1, (float **)song2,
 #define SPEAKER_PORT B
 #define SPEAKER_PIN 1
 
+// The implementation only works if all wheel pins are "next to each other"
 #define WHEEL_PORT D
-#define WHEEL_MASK ((1 << 4) | (1 << 5) | (1 << 6) | (1 << 7))
+#define WHEEL_MASK 0xF0
+#define WHEEL_BIT_SHIFT_RIGHT 4
 
 // Audio parameters
 // Frequencies are in Hz
@@ -55,6 +57,9 @@ float **songs[4] = {(float **)song0, (float **)song1, (float **)song2,
 #define MORSE_DASH_DUR 3 * MORSE_DOT_DUR
 #define MORSE_SHORT_GAP 3 * MORSE_DOT_DUR
 #define MORSE_MEDIUM_GAP 7 * MORSE_DOT_DUR
+
+// A long beep when beeping a number corresponds to this number
+#define BEEP_WHEEL_POS_LONG_NUMBER 4
 
 // Riddle Parameters
 enum position {
@@ -123,7 +128,9 @@ void initialize_ports(void);
 void sound_test(void);
 
 /**
- * Used for debugging: As many beeps as the wheel position indicates
+ * Used for debugging: Reads the wheel position and conveys position number in
+ * beeps. Count the number of long beeps and short beeps. Position is then given
+ * by number of long beeps * BEEP_WHEEL_POS_LONG_NUMBER + number of short beeps.
  */
 void beep_wheel_pos(void);
 
@@ -183,8 +190,15 @@ void initialize_ports(void) {
 }
 
 void beep_wheel_pos(void) {
-  uint8_t n_beeps = get_wheel_pos();
-  for (uint8_t i = 0; i < n_beeps; i++) {
+  uint8_t pos = get_wheel_pos();
+  uint8_t n_beeps = pos / BEEP_WHEEL_POS_LONG_NUMBER;
+  uint8_t i;
+  for (i = 0; i < n_beeps; i++) {
+    beep(MORSE_FREQ, MORSE_DASH_DUR, -1);
+    _delay_ms(MORSE_SHORT_GAP);
+  }
+  n_beeps = pos % BEEP_WHEEL_POS_LONG_NUMBER;
+  for (i = 0; i < n_beeps; i++) {
     beep(MORSE_FREQ, MORSE_DOT_DUR, -1);
     _delay_ms(MORSE_SHORT_GAP);
   }
@@ -357,4 +371,6 @@ void morse_message(int k, int on_position) {
   }
 }
 
-uint8_t get_wheel_pos(void) { return PIN(WHEEL_PORT) & WHEEL_MASK; }
+uint8_t get_wheel_pos(void) {
+  return (~PIN(WHEEL_PORT) & WHEEL_MASK) >> WHEEL_BIT_SHIFT_RIGHT;
+}
