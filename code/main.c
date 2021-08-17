@@ -1,5 +1,6 @@
 #define F_CPU 1000000UL
 #include <avr/io.h>
+
 #define HINT_SONG_NUMBER 3
 
 // See https://stackoverflow.com/questions/30422367
@@ -151,7 +152,7 @@ void play_fail_sound(int8_t on_position);
 
 /**
  * Play song given as 2d array length x 2. The two values correspond to
- * frequency and duration. A negative frequency marks the end of the song.
+ * frequency and duration. A negative duration marks the end of the song.
  */
 void play_song(const __flash float song[][2], int8_t on_position);
 void play_predefined_song(int song_number, int8_t on_position);
@@ -212,6 +213,7 @@ void beep_history(enum position *history);
 // =============================================================================
 uint8_t main(void) {
   initialize_ports();
+  play_boot_sound();
 
   uint8_t last_position = get_wheel_pos();
   enum position history[HISTORY_LENGTH] = {0, 0, 0, 0, 0, 0};
@@ -503,6 +505,12 @@ void play_predefined_song(int song_number, int8_t on_position) {
     play_fail_sound(on_position);
   }
 }
+
+// Functions playing hardcoded songs.
+// The song arrays correspond to the csv files in data/
+// The tuples correspond to frequency, duration
+// A negative duration marks the end of the song.
+
 void play_hint(int8_t on_position) {
   static const __flash float hint[37][2] = {
       {261.624, 250},  {261.624, 20},   {280.111, 20},   {299.897, 20},
