@@ -160,7 +160,7 @@ void play_fail_sound(int8_t on_position);
 /**
  * Play predefined song
  */
-void play_song(uint8_t song_number, int8_t on_position);
+void play_song(float song[][2], int8_t on_position);
 
 /**
  * Play audio based on the history of wheel positions
@@ -404,7 +404,7 @@ void play_audio(enum position *history) {
       break;
 
     if (k == HINT_LENGTH - 1) {
-      play_song(HINT_SONG_NUMBER, history[0]);
+      play_song(hint, history[0]);
       return;
     }
   }
@@ -425,8 +425,21 @@ void play_audio(enum position *history) {
       return;
     }
     if (k == SOLUTION_LENGTH) {
-      play_song(history[0] / 2 - 5, history[0]);
-      return;
+      switch (history[0]) {
+      case SONG0:
+        play_song(song0, history[0]);
+        break;
+      case SONG1:
+        play_song(song1, history[0]);
+        break;
+      case SONG2:
+        play_song(song2, history[0]);
+        break;
+      default:
+        play_fail_sound(history[0]);
+        interrupting_delay(100, history[0]);
+        play_fail_sound(history[0]);
+      }
     }
   }
 }
@@ -445,8 +458,7 @@ void beep_history(enum position *history) {
   }
 }
 
-void play_song(uint8_t song_number, int8_t on_position) {
-  float **song = songs[song_number];
+void play_song(float song[][2], int8_t on_position) {
   for (uint8_t k = 0; song[k][1] >= 0; k++) {
     beep(song[k][0], song[k][1], on_position);
   }
