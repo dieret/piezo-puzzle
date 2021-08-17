@@ -21,7 +21,10 @@ float hint[2][2] = {{440.0, 500.0}, {0.0, -1.0}};
 
 #include <util/delay.h>
 
-// measured on output for one specific implementation
+/**
+ * Calibration for sleep time in sound generation. Measured on output for one
+ * specific implementation
+ */
 #define DELAY_OVERHEAD_US 1320
 
 #define PORT_(port) PORT##port
@@ -32,11 +35,11 @@ float hint[2][2] = {{440.0, 500.0}, {0.0, -1.0}};
 #define DDR(port) DDR_(port)
 #define PIN(port) PIN_(port)
 
-// FIXME
 #define SPEAKER_PORT B
 #define SPEAKER_PIN 1
 
-// The implementation only works if all wheel pins are "next to each other"
+// Note that the implementation only works if all wheel pins are
+// "next to each other"
 #define WHEEL_PORT D
 #define WHEEL_MASK 0xF0
 #define WHEEL_BIT_SHIFT_RIGHT 4
@@ -68,7 +71,9 @@ float hint[2][2] = {{440.0, 500.0}, {0.0, -1.0}};
 // the combination is wrong.
 #define BEEP_HISTORY_ON_FAILURE
 
-// A long beep when beeping a number corresponds to this number
+/**
+ * A long beep when beeping a number corresponds to this number
+ */
 #define BEEP_NUMBER_LONG_NUMBER 4
 
 // Riddle Parameters
@@ -156,7 +161,8 @@ void play_boot_sound(void);
 void play_fail_sound(int8_t on_position);
 
 /**
- * Play predefined song
+ * Play song given as 2d array length x 2. The two values correspond to
+ * frequency and duration. A negative frequency marks the end of the song.
  */
 void play_song(float song[][2], int8_t on_position);
 
