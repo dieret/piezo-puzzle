@@ -1,6 +1,10 @@
 #define F_CPU 1000000UL
 #include <avr/io.h>
 
+// The song arrays correspond to the csv files in data/
+// The tuples correspond to frequency, duration
+// A negative duration marks the end of the song.
+
 float hint[37][2] = {
     {261.624, 250},  {261.624, 20},   {280.111, 20},   {299.897, 20},
     {321.086, 20},   {343.769, 20},   {368.057, 20},   {394.057, 20},
@@ -217,7 +221,7 @@ void play_fail_sound(int8_t on_position);
 
 /**
  * Play song given as 2d array length x 2. The two values correspond to
- * frequency and duration. A negative frequency marks the end of the song.
+ * frequency and duration. A negative duration marks the end of the song.
  */
 void play_song(float song[][2], int8_t on_position);
 
