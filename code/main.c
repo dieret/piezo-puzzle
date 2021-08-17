@@ -432,8 +432,8 @@ void play_audio(enum position *history) {
 }
 
 void push_history(enum position *history, uint8_t value) {
-  for (uint8_t k = 0; k < HISTORY_LENGTH - 1; k++)
-    history[k + 1] = history[k];
+  for (uint8_t k = HISTORY_LENGTH - 1; k > 0; k--)
+    history[k] = history[k - 1];
 
   history[0] = value;
 }
