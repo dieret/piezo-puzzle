@@ -273,6 +273,7 @@ void beep_history(enum position *history);
 // =============================================================================
 uint8_t main(void) {
   initialize_ports();
+  play_boot_sound();
 
   uint8_t last_position = get_wheel_pos();
   enum position history[HISTORY_LENGTH] = {0, 0, 0, 0, 0, 0};
