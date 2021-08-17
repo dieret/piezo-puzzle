@@ -447,7 +447,7 @@ void beep_history(enum position *history) {
 
 void play_song(uint8_t song_number, int8_t on_position) {
   float **song = songs[song_number];
-  for (uint8_t k = 0; song[k][2] >= 0; k++) {
+  for (uint8_t k = 0; song[k][1] >= 0; k++) {
     beep(song[k][0], song[k][1], on_position);
   }
 }
