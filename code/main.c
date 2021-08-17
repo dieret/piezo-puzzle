@@ -73,20 +73,24 @@ enum position {
   SONG2 = 14
 };
 
+/**
+ * Riddle messages as a 10 (message number) x 3 (number of chars in message)
+ * array.
+ */
 char RIDDLE_MESSAGES[10][3] = {"WHI", "",    "TEN", "",    "SMI",
                                "",    "CAP", "",    "ECC", ""};
 
-const int SOLUTION[5] = {WHI, CAP, SMI, TEN, ECC};
-const int SOLUTION_LENGTH = 5;
+const uint8_t SOLUTION[5] = {WHI, CAP, SMI, TEN, ECC};
+const uint8_t SOLUTION_LENGTH = 5;
 
-const int HINT_COMBINATION[5] = {TEN, SMI, WHI, TEN, CAP};
-const int HINT_LENGTH = 5;
+const uint8_t HINT_COMBINATION[5] = {TEN, SMI, WHI, TEN, CAP};
+const uint8_t HINT_LENGTH = 5;
 
 /**
  * Minimal time that the wheel has to stay in one position for us to act
  * on it
  */
-const int MIN_HOVER_TIME = 1000;
+const uint16_t MIN_HOVER_TIME = 1000;
 
 /**
  * Used in implementation of morse code
@@ -100,21 +104,21 @@ const char *alphabet = "**ETIANMSURWDKGOHVF*L*PJBXCYZQ**";
 // TODO! Just returns 0 at the moment
 uint8_t get_wheel_pos(void);
 
-void interrupting_delay(float ms, int on_position);
+void interrupting_delay(float ms, int8_t on_position);
 
 void beep_forever(float freq);
-void beep(float freq, float duration, int on_position);
+void beep(float freq, float duration, int8_t on_position);
 void play_boot_sound(void);
-void play_fail_sound(int on_position);
-void play_song(int song_number, int on_position);
+void play_fail_sound(int8_t on_position);
+void play_song(uint8_t song_number, int8_t on_position);
 void play_audio(enum position *history);
 
-void morse_message(int k, int on_position);
+void morse_message(uint8_t k, int8_t on_position);
 
-void single_morse_beep(uint8_t decimal, int on_position);
-void morse_char(char c, int on_position);
+void single_morse_beep(uint8_t decimal, int8_t on_position);
+void morse_char(char c, int8_t on_position);
 
-void push_history(enum position *history, int value);
+void push_history(enum position *history, uint8_t value);
 
 /**
  * Called once at the beginning to set up ports as inputs/outputs
@@ -136,12 +140,12 @@ void beep_wheel_pos(void);
 
 // MAIN
 // =============================================================================
-int main(void) {
+uint8_t main(void) {
   initialize_ports();
 
   play_boot_sound();
 
-  int last_position = get_wheel_pos();
+  uint8_t last_position = get_wheel_pos();
   enum position history[6] = {0, 0, 0, 0, 0, 0};
 
   // Wait for first wheel change to start riddle
@@ -149,7 +153,7 @@ int main(void) {
   }
 
   while (1) {
-    int current_pos = get_wheel_pos();
+    uint8_t current_pos = get_wheel_pos();
 
     if (current_pos != last_position) {
       // this is done unconditionally and for all wheel positions
@@ -159,7 +163,7 @@ int main(void) {
       // only register even positions
       if (current_pos % 2 == 0) {
         // wait before registering the new position
-        int hover_ms_count = 0;
+        uint16_t hover_ms_count = 0;
         for (; hover_ms_count < MIN_HOVER_TIME; hover_ms_count++) {
           _delay_ms(1.0);
           // cancel if we change wheel while waiting
@@ -175,6 +179,7 @@ int main(void) {
       }
     }
   }
+  return 0;
 }
 
 // FUNCTIONS
@@ -236,7 +241,7 @@ void beep_forever(float freq) {
 }
 
 // Logic from https://www.petervis.com/C/pizo%20speaker/pizo%20speaker.html
-void beep(float freq, float duration, int on_position) {
+void beep(float freq, float duration, int8_t on_position) {
 
   // low frequency beeps are seen as silence
   if (freq < 1) {
@@ -269,7 +274,7 @@ void beep(float freq, float duration, int on_position) {
 }
 
 // Logic from https://www.pocketmagic.net/morse-encoder/
-void single_morse_beep(uint8_t decimal, int on_position) {
+void single_morse_beep(uint8_t decimal, int8_t on_position) {
   if (decimal) {
     single_morse_beep(decimal / 2, on_position);
     interrupting_delay(MORSE_DOT_DUR, on_position);
@@ -283,7 +288,7 @@ void single_morse_beep(uint8_t decimal, int on_position) {
   }
 }
 
-void interrupting_delay(float duration, int on_position) {
+void interrupting_delay(float duration, int8_t on_position) {
   while (duration > 50) {
     _delay_ms(50.0);
     duration -= 50.0;
@@ -295,7 +300,7 @@ void interrupting_delay(float duration, int on_position) {
 }
 
 // Logic from https://www.pocketmagic.net/morse-encoder/
-void morse_char(char c, int on_position) {
+void morse_char(char c, int8_t on_position) {
   if (c == ' ') {
     interrupting_delay(MORSE_MEDIUM_GAP, on_position);
     return;
@@ -312,13 +317,13 @@ void morse_char(char c, int on_position) {
 
 void play_boot_sound(void) { beep(BOOT_SOUND_FREQ, BOOT_SOUND_DUR, -1); }
 
-void play_fail_sound(int on_position) {
+void play_fail_sound(int8_t on_position) {
   beep(FAIL_SOUND_FREQ, FAIL_SOUND_DUR, on_position);
 }
 
 void play_audio(enum position *history) {
   // check if combination for hint was entered
-  for (int k = 0; k < HINT_LENGTH; k++) {
+  for (uint8_t k = 0; k < HINT_LENGTH; k++) {
     if (history[k] != HINT_COMBINATION[k])
       break;
 
@@ -335,7 +340,7 @@ void play_audio(enum position *history) {
   }
 
   // check if solution was entered
-  for (int k = 1; k < SOLUTION_LENGTH + 1; k++) {
+  for (uint8_t k = 1; k < SOLUTION_LENGTH + 1; k++) {
     if (history[k] != SOLUTION[k]) {
       play_fail_sound(history[0]);
       return;
@@ -347,22 +352,22 @@ void play_audio(enum position *history) {
   }
 }
 
-void push_history(enum position *history, int value) {
-  for (int k = 0; k < 5; k++)
+void push_history(enum position *history, uint8_t value) {
+  for (uint8_t k = 0; k < 5; k++)
     history[k + 1] = history[k];
 
   history[0] = value;
 }
 
-void play_song(int song_number, int on_position) {
+void play_song(uint8_t song_number, int8_t on_position) {
   float **song = songs[song_number];
-  for (int k = 0; song[k][2] >= 0; k++) {
+  for (uint8_t k = 0; song[k][2] >= 0; k++) {
     beep(song[k][0], song[k][1], on_position);
   }
 }
 
-void morse_message(int k, int on_position) {
-  for (int m = 0; RIDDLE_MESSAGES[k][m]; m++) {
+void morse_message(uint8_t k, int8_t on_position) {
+  for (uint8_t m = 0; RIDDLE_MESSAGES[k][m]; m++) {
     morse_char(RIDDLE_MESSAGES[k][m], on_position);
     interrupting_delay(MORSE_SHORT_GAP, on_position);
     if (on_position >= 0 && get_wheel_pos() != on_position) {
