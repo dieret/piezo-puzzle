@@ -63,7 +63,7 @@ float hint[2][2] = {{440.0, 500.0}, {0.0, -1.0}};
 // A quick beep, whenever a wheel position gets locked in (i.e. triggers
 // something)
 #define USE_LOCKED_IN_BEEPS
-#define LOCKED_IN_FREQ 800
+#define LOCKED_IN_FREQ 600
 #define LOCKED_IN_DUR 50
 #define LOCKED_IN_BREAK 300
 
