@@ -98,13 +98,13 @@ char RIDDLE_MESSAGES[10][3] = {"WHI", "",    "TEN", "",    "SMI",
                                "",    "CAP", "",    "ECC", ""};
 
 /**
- * The solution to the riddle
+ * The solution to the riddle in reverse (!) order
  */
 const uint8_t SOLUTION[5] = {WHI, CAP, SMI, TEN, ECC};
 const uint8_t SOLUTION_LENGTH = 5;
 
 /**
- * This combination isn't the solution, but will play a hint
+ * A combination to play a hint in reverse (!) order
  */
 const uint8_t HINT_COMBINATION[5] = {TEN, SMI, WHI, TEN, CAP};
 const uint8_t HINT_LENGTH = 5;
@@ -417,7 +417,7 @@ void play_audio(enum position *history) {
 
   // check if solution was entered
   for (uint8_t k = 1; k < SOLUTION_LENGTH + 1; k++) {
-    if (history[k] != SOLUTION[k]) {
+    if (history[k] != SOLUTION[k - 1]) {
       play_fail_sound(history[0]);
 #ifdef BEEP_HISTORY_ON_FAILURE
       beep_history(history);
