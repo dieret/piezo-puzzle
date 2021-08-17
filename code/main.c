@@ -101,23 +101,67 @@ const char *alphabet = "**ETIANMSURWDKGOHVF*L*PJBXCYZQ**";
 // PROTOTYPES
 // =============================================================================
 
-// TODO! Just returns 0 at the moment
+/**
+ * Return position of the wheel. Will be between 0 and 15
+ */
 uint8_t get_wheel_pos(void);
 
+/**
+ * Sleep for this many ms. When the wheel position changes to on_position, the
+ * sleep is interrupted.
+ */
 void interrupting_delay(float ms, int8_t on_position);
 
+/**
+ * Beep with frequency in infinite loop.
+ */
 void beep_forever(float freq);
+
+/**
+ * Beep with specified frequency and duration. When wheel position changes,
+ * interrupt.
+ */
 void beep(float freq, float duration, int8_t on_position);
+
+/**
+ * Sound played after boot
+ */
 void play_boot_sound(void);
+
+/**
+ * Sound played when player tries to access payoff position (that would play a
+ * birthday song) with a wrong code entered before.
+ */
 void play_fail_sound(int8_t on_position);
+
+/**
+ * Play predefined song
+ */
 void play_song(uint8_t song_number, int8_t on_position);
+
+/**
+ * Play audio based on the history of wheel positions
+ */
 void play_audio(enum position *history);
 
+/**
+ * Morse pre-defined message
+ */
 void morse_message(uint8_t message_id, int8_t on_position);
 
+/**
+ * Helper function for the implementation of morse_char
+ */
 void _morse_char(uint8_t decimal, int8_t on_position);
+
+/**
+ * Morse single char
+ */
 void morse_char(char c, int8_t on_position);
 
+/**
+ * Push a wheel position to the history of wheel positions
+ */
 void push_history(enum position *history, uint8_t value);
 
 /**
@@ -142,8 +186,6 @@ void beep_wheel_pos(void);
 // =============================================================================
 uint8_t main(void) {
   initialize_ports();
-
-  play_boot_sound();
 
   uint8_t last_position = get_wheel_pos();
   enum position history[6] = {0, 0, 0, 0, 0, 0};
