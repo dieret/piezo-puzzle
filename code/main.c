@@ -113,7 +113,7 @@ void play_fail_sound(int8_t on_position);
 void play_song(uint8_t song_number, int8_t on_position);
 void play_audio(enum position *history);
 
-void morse_message(uint8_t k, int8_t on_position);
+void morse_message(uint8_t message_id, int8_t on_position);
 
 void _morse_char(uint8_t decimal, int8_t on_position);
 void morse_char(char c, int8_t on_position);
@@ -366,9 +366,9 @@ void play_song(uint8_t song_number, int8_t on_position) {
   }
 }
 
-void morse_message(uint8_t k, int8_t on_position) {
-  for (uint8_t m = 0; RIDDLE_MESSAGES[k][m]; m++) {
-    morse_char(RIDDLE_MESSAGES[k][m], on_position);
+void morse_message(uint8_t message_id, int8_t on_position) {
+  for (uint8_t m = 0; RIDDLE_MESSAGES[message_id][m]; m++) {
+    morse_char(RIDDLE_MESSAGES[message_id][m], on_position);
     interrupting_delay(MORSE_SHORT_GAP, on_position);
     if (on_position >= 0 && get_wheel_pos() != on_position) {
       return;
