@@ -66,8 +66,12 @@ float **songs[4] = {(float **)song0, (float **)song1, (float **)song2,
 #define LOCKED_IN_DUR 50
 #define LOCKED_IN_BREAK 300
 
+// [DEBUG] Beep full history when one of the payoff positions is locked in but
+// the combination is wrong.
+#define BEEP_HISTORY_ON_FAILURE
+
 // A long beep when beeping a number corresponds to this number
-#define BEEP_WHEEL_POS_LONG_NUMBER 4
+#define BEEP_NUMBER_LONG_NUMBER 4
 
 // Riddle Parameters
 enum position {
@@ -196,11 +200,15 @@ void initialize_ports(void);
 void sound_test(void);
 
 /**
- * Used for debugging: Reads the wheel position and conveys position number in
- * beeps. Count the number of long beeps and short beeps. Position is then given
- * by number of long beeps * BEEP_WHEEL_POS_LONG_NUMBER + number of short beeps.
+ * Used for debugging: Transmit number with beeps. Number is then given
+ * by number of long beeps * BEEP_NUMBER_LONG_NUMBER + number of short beeps.
  */
-void beep_wheel_pos(void);
+void beep_number(uint8_t number);
+
+/**
+ * Used for debugging: Transmit history with beeps.
+ */
+void beep_history(enum position *history);
 
 // MAIN
 // =============================================================================
@@ -260,15 +268,14 @@ void initialize_ports(void) {
   PORT(WHEEL_PORT) |= WHEEL_MASK;
 }
 
-void beep_wheel_pos(void) {
-  uint8_t pos = get_wheel_pos();
-  uint8_t n_beeps = pos / BEEP_WHEEL_POS_LONG_NUMBER;
+void beep_number(uint8_t number) {
+  uint8_t n_beeps = number / BEEP_NUMBER_LONG_NUMBER;
   uint8_t i;
   for (i = 0; i < n_beeps; i++) {
     beep(MORSE_FREQ, MORSE_DASH_DUR, -1);
     _delay_ms(MORSE_SHORT_GAP);
   }
-  n_beeps = pos % BEEP_WHEEL_POS_LONG_NUMBER;
+  n_beeps = number % BEEP_NUMBER_LONG_NUMBER;
   for (i = 0; i < n_beeps; i++) {
     beep(MORSE_FREQ, MORSE_DOT_DUR, -1);
     _delay_ms(MORSE_SHORT_GAP);
@@ -412,6 +419,9 @@ void play_audio(enum position *history) {
   for (uint8_t k = 1; k < SOLUTION_LENGTH + 1; k++) {
     if (history[k] != SOLUTION[k]) {
       play_fail_sound(history[0]);
+#ifdef BEEP_HISTORY_ON_FAILURE
+      beep_history(history);
+#endif
       return;
     }
     if (k == SOLUTION_LENGTH) {
@@ -426,6 +436,13 @@ void push_history(enum position *history, uint8_t value) {
     history[k + 1] = history[k];
 
   history[0] = value;
+}
+
+void beep_history(enum position *history) {
+  for (uint8_t k = 0; k < HISTORY_LENGTH; k++) {
+    beep_number(history[k]);
+    _delay_ms(MORSE_MEDIUM_GAP);
+  }
 }
 
 void play_song(uint8_t song_number, int8_t on_position) {
