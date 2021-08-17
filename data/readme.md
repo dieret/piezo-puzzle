@@ -10,7 +10,7 @@ julia --project
 ```
 and then run
 ```
-]instantiate
+instantiate
 ```
 from the REPL.
 
