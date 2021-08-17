@@ -13,6 +13,7 @@ float hint[2][2] = {{440.0, 500.0}, {0.0, -1.0}};
 
 float **songs[4] = {(float **)song0, (float **)song1, (float **)song2,
                     (float **)hint};
+#define HINT_SONG_NUMBER
 
 // See https://stackoverflow.com/questions/30422367
 #define __DELAY_BACKWARD_COMPATIBLE__
@@ -79,6 +80,11 @@ enum position {
   SONG1 = 12,
   SONG2 = 14
 };
+
+/**
+ * Number of wheel positions kept in history
+ */
+#define HISTORY_LENGTH 6
 
 /**
  * Riddle messages as a 10 (message number) x 3 (number of chars in message)
@@ -173,7 +179,8 @@ void _morse_char(uint8_t decimal, int8_t on_position);
 void morse_char(char c, int8_t on_position);
 
 /**
- * Push a wheel position to the history of wheel positions
+ * Push a wheel position to the history of wheel positions. The new position
+ * will be at the start of the array.
  */
 void push_history(enum position *history, uint8_t value);
 
@@ -201,7 +208,7 @@ uint8_t main(void) {
   initialize_ports();
 
   uint8_t last_position = get_wheel_pos();
-  enum position history[6] = {0, 0, 0, 0, 0, 0};
+  enum position history[HISTORY_LENGTH] = {0, 0, 0, 0, 0, 0};
 
   // Wait for first wheel change to start riddle
   while (get_wheel_pos() == last_position) {
@@ -390,7 +397,7 @@ void play_audio(enum position *history) {
       break;
 
     if (k == HINT_LENGTH - 1) {
-      play_song(3, history[0]);
+      play_song(HINT_SONG_NUMBER, history[0]);
       return;
     }
   }
@@ -415,7 +422,7 @@ void play_audio(enum position *history) {
 }
 
 void push_history(enum position *history, uint8_t value) {
-  for (uint8_t k = 0; k < 5; k++)
+  for (uint8_t k = 0; k < HISTORY_LENGTH - 1; k++)
     history[k + 1] = history[k];
 
   history[0] = value;
