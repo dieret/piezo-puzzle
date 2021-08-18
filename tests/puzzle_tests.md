@@ -36,5 +36,5 @@
    2. does hint abort on wheel change?
 
 6. Other tests:
-   3.  go from position 0 to 1 and back to 0. Does the message replay?
+   3. go from position 0 to 1 and back to 0. Does the message replay?
    4. stay on one position for 10s. Does the message only play once?
