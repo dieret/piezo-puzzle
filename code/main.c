@@ -355,7 +355,7 @@ void beep(float freq, float duration, int8_t on_position) {
     // abort if wheel position has changed
     // we only check this every 100 times because loading variables and
     // executing functions might be expensive
-    if (i % 100 == 0 && on_position >= 0 && get_wheel_pos() != on_position)
+    if (i % 2000 == 0 && on_position >= 0 && get_wheel_pos() != on_position)
       return;
   }
 
