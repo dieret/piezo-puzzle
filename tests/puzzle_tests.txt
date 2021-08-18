@@ -1,3 +1,7 @@
+Checks for the code
+
+1. ``BEEP_HISTORY_ON_FAILURE`` must not be defined
+
 Some tests to carry out by hand on the final puzzle.
 
 1. Test morse messages:

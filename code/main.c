@@ -59,7 +59,7 @@
 
 // [DEBUG] Beep full history when one of the payoff positions is locked in but
 // the combination is wrong.
-#define BEEP_HISTORY_ON_FAILURE
+// #define BEEP_HISTORY_ON_FAILURE
 
 /**
  * A long beep when beeping a number corresponds to this number
