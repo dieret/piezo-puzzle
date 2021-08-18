@@ -48,10 +48,17 @@ cmake --build .
 cmake --build . --target upload
 ```
 
+If you get
+
+```
+avrdude: ser_open(): can't open device "/dev/ttyACM0": Device or resource busy
+```
+
+it helps to run `pavr2cmd --status` for some reason.
 
 ## Development setup
 
-```
+```bash
 sudo apt-get install clang-format
 pre-commit install
 ```
