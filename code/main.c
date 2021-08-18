@@ -78,6 +78,9 @@ enum position {
   SONG2 = 14
 };
 
+// Assuming that everything >= this number is a song position
+#define FIRST_SONG_POSITION 10
+
 /**
  * Number of wheel positions kept in history
  */
@@ -250,7 +253,8 @@ uint8_t main(void) {
           // has been solved: If we move from a song position
           // to a song position, the (potentially solved)
           // history is preserved.
-          if (history[0] >= 10 && current_pos >= 10)
+          if (history[0] >= FIRST_SONG_POSITION &&
+              current_pos >= FIRST_SONG_POSITION)
             history[0] = current_pos;
           else
             push_history(history, current_pos);
@@ -417,7 +421,7 @@ void play_audio(enum position *history) {
   }
 
   // are we on a "riddle" position? (hardcoded)
-  if (history[0] < 10) {
+  if (history[0] < FIRST_SONG_POSITION) {
     morse_message(history[0], history[0]);
     return;
   }
