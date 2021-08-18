@@ -66,7 +66,7 @@
  */
 #define BEEP_NUMBER_LONG_NUMBER 4
 
-// Riddle Parameters
+// Position of the wheel and its meanings.
 enum position {
   WHI = 0,
   TEN = 2,
@@ -155,7 +155,6 @@ void play_fail_sound(int8_t on_position);
  * frequency and duration. A negative duration marks the end of the song.
  */
 void play_song(const __flash float song[][2], int8_t on_position);
-void play_predefined_song(int song_number, int8_t on_position);
 void play_hint(int8_t on_position);
 void play_song0(int8_t on_position);
 void play_song1(int8_t on_position);
@@ -484,26 +483,6 @@ void morse_message(uint8_t message_id, int8_t on_position) {
 
 uint8_t get_wheel_pos(void) {
   return (~PIN(WHEEL_PORT) & WHEEL_MASK) >> WHEEL_BIT_SHIFT_RIGHT;
-}
-
-void play_predefined_song(int song_number, int8_t on_position) {
-  switch (song_number) {
-  case 0:
-    play_song0(on_position);
-    break;
-  case 1:
-    play_song1(on_position);
-    break;
-  case 2:
-    play_song2(on_position);
-    break;
-  case 3:
-    play_hint(on_position);
-  default:
-    play_fail_sound(on_position);
-    interrupting_delay(100, on_position);
-    play_fail_sound(on_position);
-  }
 }
 
 // Functions playing hardcoded songs.
