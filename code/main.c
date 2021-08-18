@@ -9,16 +9,13 @@
 
 #include <util/delay.h>
 
-/**
- * Calibration for sleep time in sound generation. Measured on output for one
- * specific implementation. See implementation of `beep`
- */
-#define DELAY_OVERHEAD_US 1320
+// Port definitions
+// -----------------------------------------------------------------------------
 
+// A bit of preprocessor magic to make defining ports/pins easier
 #define PORT_(port) PORT##port
 #define DDR_(port) DDR##port
 #define PIN_(port) PIN##port
-
 #define PORT(port) PORT_(port)
 #define DDR(port) DDR_(port)
 #define PIN(port) PIN_(port)
@@ -32,12 +29,15 @@
 #define WHEEL_MASK 0xF0
 #define WHEEL_BIT_SHIFT_RIGHT 4
 
-/**
- * How many ms to wait before checking whether sleep time should be interrupted
- */
-#define INTERRUPTING_DELAY_POLL_TIME 50.0
-
 // Audio parameters
+// -----------------------------------------------------------------------------
+
+/**
+ * Calibration for sleep time in sound generation. Measured on output for one
+ * specific implementation. See implementation of `beep`
+ */
+#define DELAY_OVERHEAD_US 1320
+
 // Frequencies are in Hz
 // Durations in ms
 
@@ -60,6 +60,9 @@
 #define LOCKED_IN_DUR 50
 #define LOCKED_IN_BREAK 300
 
+// Debug configuration
+// -----------------------------------------------------------------------------
+
 // [DEBUG] Beep full history when one of the song positions is locked in but
 // the combination is wrong. Uncomment next line to activate
 // #define BEEP_HISTORY_ON_FAILURE
@@ -69,6 +72,9 @@
  * beep_number in debugging.
  */
 #define BEEP_NUMBER_LONG_NUMBER 4
+
+// Puzzle configuration
+// -----------------------------------------------------------------------------
 
 // Position of the wheel and its meanings.
 enum position {
@@ -114,6 +120,17 @@ const __flash uint8_t HINT_COMBINATION[5] = {TEN, SMI, WHI, TEN, CAP};
  * on it
  */
 #define MIN_HOVER_TIME 1000
+
+// MISC configuration
+// -----------------------------------------------------------------------------
+
+/**
+ * How many ms to wait before checking whether sleep time should be interrupted
+ */
+#define INTERRUPTING_DELAY_POLL_TIME 50.0
+
+// Constants that you probably don't have to touch
+// -----------------------------------------------------------------------------
 
 /**
  * Used in implementation of morse code
@@ -162,6 +179,8 @@ void play_fail_sound(int8_t on_position);
  * frequency and duration. A negative duration marks the end of the song.
  */
 void play_song(const __flash float song[][2], int8_t on_position);
+
+// Pre defined songs
 void play_hint(int8_t on_position);
 void play_song0(int8_t on_position);
 void play_song1(int8_t on_position);
@@ -217,6 +236,7 @@ void beep_history(enum position *history);
 
 // MAIN
 // =============================================================================
+
 uint8_t main(void) {
   initialize_ports();
   play_boot_sound();
@@ -278,7 +298,7 @@ uint8_t main(void) {
   return 0;
 }
 
-// FUNCTIONS
+// IMPLEMENTATIONS
 // =============================================================================
 
 void initialize_ports(void) {
