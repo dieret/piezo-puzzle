@@ -224,8 +224,10 @@ uint8_t main(void) {
   while (get_wheel_pos() == last_position) {
   }
 
+  uint8_t current_pos;
+  uint16_t hover_ms_count;
   while (1) {
-    uint8_t current_pos = get_wheel_pos();
+    current_pos = get_wheel_pos();
 
     if (current_pos != last_position) {
       // this is done unconditionally and for all wheel positions
@@ -235,7 +237,7 @@ uint8_t main(void) {
       // only register even positions
       if (current_pos % 2 == 0) {
         // wait before registering the new position
-        uint16_t hover_ms_count = 0;
+        hover_ms_count = 0;
         for (; hover_ms_count < MIN_HOVER_TIME; hover_ms_count++) {
           _delay_ms(1.0);
           // cancel if we change wheel while waiting
@@ -426,7 +428,8 @@ void play_audio(enum position *history) {
     return;
   }
 
-  // check if solution was entered
+  // If we are at this point we are >= FIRST_SONG_POSITION
+  // check if solution was entered before this last position
   for (uint8_t k = 1; k < SOLUTION_LENGTH + 1; k++) {
     if (history[k] != SOLUTION[k - 1]) {
       play_fail_sound(history[0]);
@@ -436,6 +439,7 @@ void play_audio(enum position *history) {
       return;
     }
     if (k == SOLUTION_LENGTH) {
+      // Correct solution was entered. Now check whether we should play a song
       switch (history[0]) {
       case SONG0:
         play_song0(history[0]);
