@@ -32,6 +32,11 @@
 #define WHEEL_MASK 0xF0
 #define WHEEL_BIT_SHIFT_RIGHT 4
 
+/**
+ * How many ms to wait before checking whether sleep time should be interrupted
+ */
+#define INTERRUPTING_DELAY_POLL_TIME 50.0
+
 // Audio parameters
 // Frequencies are in Hz
 // Durations in ms
@@ -386,9 +391,9 @@ void _morse_char(uint8_t decimal, int8_t on_position) {
 void interrupting_delay(float duration, int8_t on_position) {
   // Only check whether to abort every 50 ms to avoid distortion of time due to
   // time it takes to check variables.
-  while (duration > 50) {
-    _delay_ms(50.0);
-    duration -= 50.0;
+  while (duration > INTERRUPTING_DELAY_POLL_TIME) {
+    _delay_ms(INTERRUPTING_DELAY_POLL_TIME);
+    duration -= INTERRUPTING_DELAY_POLL_TIME;
     if (on_position >= 0 && get_wheel_pos() != on_position)
       return;
   }
