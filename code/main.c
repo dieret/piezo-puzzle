@@ -365,6 +365,8 @@ void beep(float freq, float duration, int8_t on_position) {
 // Logic from https://www.pocketmagic.net/morse-encoder/
 void _morse_char(uint8_t decimal, int8_t on_position) {
   if (decimal) {
+    if (on_position != get_wheel_pos())
+      return;
     _morse_char(decimal / 2, on_position);
     interrupting_delay(MORSE_DOT_DUR, on_position);
     if (decimal != 1) {
@@ -487,6 +489,8 @@ void play_song(const __flash float song[][2], int8_t on_position) {
 
 void morse_message(uint8_t message_id, int8_t on_position) {
   for (uint8_t m = 0; RIDDLE_MESSAGES[message_id][m]; m++) {
+    if (on_position != get_wheel_pos())
+      return;
     morse_char(RIDDLE_MESSAGES[message_id][m], on_position);
     interrupting_delay(MORSE_SHORT_GAP, on_position);
     if (on_position >= 0 && get_wheel_pos() != on_position) {
@@ -501,7 +505,8 @@ uint8_t get_wheel_pos(void) {
 
 // Functions playing hardcoded songs.
 // The song arrays correspond to the csv files in data/
-// The tuples correspond to frequency, duration
+// The tuples correspond to frequency in Hz, duration in ms
+// Zero frequency marks pauses.
 // A negative duration marks the end of the song.
 
 void play_hint(int8_t on_position) {
