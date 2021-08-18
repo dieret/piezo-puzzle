@@ -1,30 +1,35 @@
-Checks for the code
+# Checks
 
-1. ``BEEP_HISTORY_ON_FAILURE`` must not be defined
+## Checks for the code
 
-Some tests to carry out by hand on the final puzzle.
+1. `BEEP_HISTORY_ON_FAILURE` must not be defined
+
+## Tests to carry out by hand on the final puzzle
 
 1. Test morse messages:
-   0 (WHI) ->  .-- | .... |  ..
-   2 (TEN) ->   -  |   .  |  -.
-   4 (SMI) ->  ... |  --  |  ..
-   6 (CAP) -> -.-. |  .-  | .--.
-   8 (ECC) ->   .  | -.-. | -.-.
 
-solution combination: 8 2 4 6 0 (ECC, TEN, SMI, CAP, WHI)
-hint combination:     6 2 0 4 2 (CAP, TEN, WHI, SMI, TEN)
+```
+0 (WHI) ->  .-- | .... |  ..
+2 (TEN) ->   -  |   .  |  -.
+4 (SMI) ->  ... |  --  |  ..
+6 (CAP) -> -.-. |  .-  | .--.
+8 (ECC) ->   .  | -.-. | -.-.
+```
+
+* solution combination: `8 2 4 6 0 (ECC, TEN, SMI, CAP, WHI)`
+* hint combination:     `6 2 0 4 2 (CAP, TEN, WHI, SMI, TEN)`
 
 2. Tests for solution:
-    a) enter solution, give each morse code time to finish
-    b) enter solution, abort some morse codes in between
-    c) enter solution, move to invalid position in between (2s)
-    d) can we play another song without reentering solution?
-    e) do the songs abort on wheel change?
+   1. enter solution, give each morse code time to finish
+   2.  enter solution, abort some morse codes in between
+   3.  enter solution, move to invalid position in between (2s)
+   4. can we play another song without reentering solution?
+   5.  do the songs abort on wheel change?
 
 3. Tests for hint:
-    a) does hint play after entering hint combination?
-    b) does hint abort on wheel change?
+   1. does hint play after entering hint combination?
+   2. does hint abort on wheel change?
 
 4. Other tests:
-    a) go from position 0 to 1 and back to 0. Does the message replay?
-    b) stay on one position for 10s. Does the message only play once?
+   3.  go from position 0 to 1 and back to 0. Does the message replay?
+   4. stay on one position for 10s. Does the message only play once?
