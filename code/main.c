@@ -57,7 +57,7 @@
 #define LOCKED_IN_DUR 50
 #define LOCKED_IN_BREAK 300
 
-// [DEBUG] Beep full history when one of the payoff positions is locked in but
+// [DEBUG] Beep full history when one of the song positions is locked in but
 // the combination is wrong.
 // #define BEEP_HISTORY_ON_FAILURE
 
@@ -148,8 +148,8 @@ void beep(float freq, float duration, int8_t on_position);
 void play_boot_sound(void);
 
 /**
- * Sound played when player tries to access payoff position (that would play a
- * birthday song) with a wrong code entered before.
+ * Sound played when player tries to access song positions
+ * with a wrong code entered before.
  */
 void play_fail_sound(int8_t on_position);
 
@@ -248,8 +248,13 @@ uint8_t main(void) {
         // register new position and give audio feedback
         if (hover_ms_count == MIN_HOVER_TIME) {
 #ifdef USE_LOCKED_IN_BEEPS
-          beep(LOCKED_IN_FREQ, LOCKED_IN_DUR, current_pos);
-          interrupting_delay(LOCKED_IN_BREAK, current_pos);
+          // We will get either a song (correct solution) or a fail sound
+          // (otherwise) so we save ourselves the lock in beep to not take away
+          // from the songs.
+          if (current_pos < FIRST_SONG_POSITION) {
+            beep(LOCKED_IN_FREQ, LOCKED_IN_DUR, current_pos);
+            interrupting_delay(LOCKED_IN_BREAK, current_pos);
+          }
 #endif
           // allow playing different songs once the riddle
           // has been solved: If we move from a song position
