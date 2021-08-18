@@ -1,8 +1,6 @@
 #define F_CPU 1000000UL
 #include <avr/io.h>
 
-#define HINT_SONG_NUMBER 3
-
 // See https://stackoverflow.com/questions/30422367
 #define __DELAY_BACKWARD_COMPATIBLE__
 // By default, _delay_ms and _delay_us always round up if the delay time isn't
@@ -13,7 +11,7 @@
 
 /**
  * Calibration for sleep time in sound generation. Measured on output for one
- * specific implementation
+ * specific implementation. See implementation of `beep`
  */
 #define DELAY_OVERHEAD_US 1320
 
@@ -58,11 +56,12 @@
 #define LOCKED_IN_BREAK 300
 
 // [DEBUG] Beep full history when one of the song positions is locked in but
-// the combination is wrong.
+// the combination is wrong. Uncomment next line to activate
 // #define BEEP_HISTORY_ON_FAILURE
 
 /**
- * A long beep when beeping a number corresponds to this number
+ * A long beep when beeping a number corresponds to this number. Used for
+ * beep_number in debugging.
  */
 #define BEEP_NUMBER_LONG_NUMBER 4
 
@@ -90,19 +89,19 @@ enum position {
  * Riddle messages as a 10 (message number) x 3 (number of chars in message)
  * array.
  */
-char RIDDLE_MESSAGES[10][3] = {"WHI", "",    "TEN", "",    "SMI",
-                               "",    "CAP", "",    "ECC", ""};
+const __flash char RIDDLE_MESSAGES[10][3] = {"WHI", "",    "TEN", "",    "SMI",
+                                             "",    "CAP", "",    "ECC", ""};
 
 /**
  * The solution to the riddle in reverse (!) order
  */
-const uint8_t SOLUTION[5] = {WHI, CAP, SMI, TEN, ECC};
+const __flash uint8_t SOLUTION[5] = {WHI, CAP, SMI, TEN, ECC};
 #define SOLUTION_LENGTH 5
 
 /**
  * A combination to play a hint in reverse (!) order
  */
-const uint8_t HINT_COMBINATION[5] = {TEN, SMI, WHI, TEN, CAP};
+const __flash uint8_t HINT_COMBINATION[5] = {TEN, SMI, WHI, TEN, CAP};
 #define HINT_LENGTH 5
 
 /**
@@ -114,7 +113,7 @@ const uint8_t HINT_COMBINATION[5] = {TEN, SMI, WHI, TEN, CAP};
 /**
  * Used in implementation of morse code
  */
-const char *alphabet = "**ETIANMSURWDKGOHVF*L*PJBXCYZQ**";
+char *alphabet = "**ETIANMSURWDKGOHVF*L*PJBXCYZQ**";
 #define ALPHABET_LENGTH 32
 
 // PROTOTYPES
