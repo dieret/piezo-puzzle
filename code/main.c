@@ -66,7 +66,7 @@
  */
 #define BEEP_NUMBER_LONG_NUMBER 4
 
-// Riddle Parameters
+// Position of the wheel and its meanings.
 enum position {
   WHI = 0,
   TEN = 2,
@@ -77,6 +77,9 @@ enum position {
   SONG1 = 12,
   SONG2 = 14
 };
+
+// Assuming that everything >= this number is a song position
+#define FIRST_SONG_POSITION 10
 
 /**
  * Number of wheel positions kept in history
@@ -155,7 +158,6 @@ void play_fail_sound(int8_t on_position);
  * frequency and duration. A negative duration marks the end of the song.
  */
 void play_song(const __flash float song[][2], int8_t on_position);
-void play_predefined_song(int song_number, int8_t on_position);
 void play_hint(int8_t on_position);
 void play_song0(int8_t on_position);
 void play_song1(int8_t on_position);
@@ -222,8 +224,10 @@ uint8_t main(void) {
   while (get_wheel_pos() == last_position) {
   }
 
+  uint8_t current_pos;
+  uint16_t hover_ms_count;
   while (1) {
-    uint8_t current_pos = get_wheel_pos();
+    current_pos = get_wheel_pos();
 
     if (current_pos != last_position) {
       // this is done unconditionally and for all wheel positions
@@ -233,7 +237,7 @@ uint8_t main(void) {
       // only register even positions
       if (current_pos % 2 == 0) {
         // wait before registering the new position
-        uint16_t hover_ms_count = 0;
+        hover_ms_count = 0;
         for (; hover_ms_count < MIN_HOVER_TIME; hover_ms_count++) {
           _delay_ms(1.0);
           // cancel if we change wheel while waiting
@@ -251,7 +255,8 @@ uint8_t main(void) {
           // has been solved: If we move from a song position
           // to a song position, the (potentially solved)
           // history is preserved.
-          if (history[0] >= 10 && current_pos >= 10)
+          if (history[0] >= FIRST_SONG_POSITION &&
+              current_pos >= FIRST_SONG_POSITION)
             history[0] = current_pos;
           else
             push_history(history, current_pos);
@@ -418,12 +423,13 @@ void play_audio(enum position *history) {
   }
 
   // are we on a "riddle" position? (hardcoded)
-  if (history[0] < 10) {
+  if (history[0] < FIRST_SONG_POSITION) {
     morse_message(history[0], history[0]);
     return;
   }
 
-  // check if solution was entered
+  // If we are at this point we are >= FIRST_SONG_POSITION
+  // check if solution was entered before this last position
   for (uint8_t k = 1; k < SOLUTION_LENGTH + 1; k++) {
     if (history[k] != SOLUTION[k - 1]) {
       play_fail_sound(history[0]);
@@ -433,6 +439,7 @@ void play_audio(enum position *history) {
       return;
     }
     if (k == SOLUTION_LENGTH) {
+      // Correct solution was entered. Now check whether we should play a song
       switch (history[0]) {
       case SONG0:
         play_song0(history[0]);
@@ -487,26 +494,6 @@ void morse_message(uint8_t message_id, int8_t on_position) {
 
 uint8_t get_wheel_pos(void) {
   return (~PIN(WHEEL_PORT) & WHEEL_MASK) >> WHEEL_BIT_SHIFT_RIGHT;
-}
-
-void play_predefined_song(int song_number, int8_t on_position) {
-  switch (song_number) {
-  case 0:
-    play_song0(on_position);
-    break;
-  case 1:
-    play_song1(on_position);
-    break;
-  case 2:
-    play_song2(on_position);
-    break;
-  case 3:
-    play_hint(on_position);
-  default:
-    play_fail_sound(on_position);
-    interrupting_delay(100, on_position);
-    play_fail_sound(on_position);
-  }
 }
 
 // Functions playing hardcoded songs.
