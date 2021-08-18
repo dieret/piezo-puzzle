@@ -327,6 +327,8 @@ void beep_forever(float freq) {
 }
 
 // Logic from https://www.petervis.com/C/pizo%20speaker/pizo%20speaker.html
+// WARNING: When you change this implementation you might have recalibrate
+// DELAY_OVEREAD_US.
 void beep(float freq, float duration, int8_t on_position) {
 
   // low frequency beeps are seen as silence
@@ -338,6 +340,7 @@ void beep(float freq, float duration, int8_t on_position) {
   float wavelength = (1 / freq) * 1000;
   uint32_t cycles = (uint32_t)duration / wavelength;
   double half_period_us = (double)1000 * wavelength / 2;
+  // Compensate for the time that it takes to toggle pins, load variables, etc.
   double compensated_waiting_time = half_period_us - DELAY_OVERHEAD_US / 2;
 
   if (compensated_waiting_time < 0)
