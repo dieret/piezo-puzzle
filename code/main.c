@@ -468,6 +468,9 @@ void beep_history(enum position *history) {
 
 void play_song(const __flash float song[][2], int8_t on_position) {
   for (uint8_t k = 0; song[k][1] >= 0; k++) {
+    if (on_position >= 0 && get_wheel_pos() != on_position) {
+      return;
+    }
     beep(song[k][0], song[k][1], on_position);
   }
 }
