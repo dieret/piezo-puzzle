@@ -18,8 +18,8 @@
 8 (ECC) ->   .  | -.-. | -.-.
 ```
 
-* solution combination: `8 2 4 6 0 (ECC, TEN, SMI, CAP, WHI)`
-* hint combination:     `6 2 0 4 2 (CAP, TEN, WHI, SMI, TEN)`
+* solution combination: `8 2 4 6 0` (internal position numbers) = `ECC, TEN, SMI, CAP, WHI` (morse code) = `5 2 3 4 1` (labels on final dial)
+* hint combination:     `6 2 0 4 2` = `CAP, TEN, WHI, SMI, TEN` = `4 2 1 3 2`
 
 4. Tests for solution: For each of the following cases check that
    1. enter solution, give each morse code time to finish
