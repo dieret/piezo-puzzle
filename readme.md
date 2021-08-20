@@ -12,7 +12,7 @@ An interactive birthday puzzle with a piezo buzzer operated by an atmega8 MCU. D
 
 * MCU: atmega8
 * Input: Rotary switch with 16 positions [KMR 16](https://www.reichelt.de/dreh-codierschalter-16-polig-mit-vertikal-achse-kmr-16-p9434.html?&nbc=1)
-* Output: Piezo element. The piezo element is included in a small circuit as described at [electroschematics.com](https://www.electroschematics.com/funny-micro-synthesizer/). We used the following parts:
+* Output: Piezo element. The piezo element is included in a small circuit as described at [electroschematics.com](https://www.electroschematics.com/funny-micro-synthesizer/). We used the following parts: <!-- markdown-link-check-disable-line -->
     * Piezo element [SUMMER EPM 121](https://www.reichelt.de/piezo-schallwandler-85-db-4-khz-summer-epm-121-p35927.html?&nbc=1)
     * Transistor [SC 1815](https://www.reichelt.de/bipolartransistor-npn-50v-0-15a-0-4w-to-92-sc-1815-p16334.html?&trstct=pos_0&nbc=1). **WARNING: unusual pin configuration**; check first page of data sheet
     * 1K resistor
