@@ -8,6 +8,18 @@ An interactive birthday puzzle with a piezo buzzer operated by an atmega8 MCU. D
 
 ## Description
 
+The dial has 16 values (0 to 15). All odd positions are skipped (and in the final packaging only these will be marked with numbers/letters). On positions 0, 2, 4, 6, 8, a message is transmitted in morse code (ECC, TEN, SMI, CAP, WHI):
+
+[![Video 1](images/video1_small.png)](https://www.youtube.com/watch?v=0JKxZiPPPrw)
+
+These codes correspond to the first three letters of actors in a long running TV series. To solve the puzzle, the TV series needs to be identified and the actors need to  be ordered by their appearances. Without correct code, positions 10, 12, 14 give a sound signal indicating failure. With the correct code (`8 2 4 6 0` = `ECC TEN SMI CAP WHI`), positions 10, 12, 14 each play a distinct birthday song. After one of the songs is played, it is possible to switch between the three positions without having to re-enter the code:
+
+[![Video 2](images/video2_small.png)](https://www.youtube.com/watch?v=-bKmOt6dRks)
+
+Finally, in the case that the connection between the letters and the actors wasn't made. The hint "Ask Captain W. Smiten" can be given, corresponding to `CAP TEN WHI SMI TEN` = `6 2 0 4 2`. This will play the theme song of the TV series:
+
+[![Video 3](images/video3_small.png)](https://www.youtube.com/watch?v=Xnw1JbcScsQ)
+
 ## Hardware
 
 * MCU: atmega8
