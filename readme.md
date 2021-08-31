@@ -4,7 +4,7 @@
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/dieret/piezo-puzzle/main.svg)](https://results.pre-commit.ci/latest/github/dieret/piezo-puzzle/main)
 [![License](https://img.shields.io/github/license/dieret/piezo-puzzle.svg)](https://github.com/dieret/piezo-puzzle/blob/main/LICENSE.txt)
 
-An interactive birthday puzzle with a piezo buzzer operated by an atmega8 MCU. Different values can be selected on a rotary dial. For each selected value, letter combinations are communicated with morse code. Once their meaning is understood, they can be brought in the right order to get a code. After this code has been entered, three dial values play different birthday songs.
+An interactive birthday puzzle with a piezo buzzer operated by an atmega8 microcontroller. Different values can be selected on a rotary dial. For each selected value, letter combinations are communicated with morse code. Once their meaning is understood, they can be brought in the right order to get a code. After this code has been entered, three dial values play different birthday songs.
 
 ## Description
 
@@ -22,7 +22,7 @@ Finally, in the case that the connection between the letters and the actors wasn
 
 ## Hardware
 
-* MCU: atmega8
+* microcontroller unit (MCU): atmega8
 * Input: Rotary switch with 16 positions [KMR 16](https://www.reichelt.de/dreh-codierschalter-16-polig-mit-vertikal-achse-kmr-16-p9434.html?&nbc=1). Each position "snaps in place". Also note that the torque required to turn this switch is quite high. In our case this was connected to a larger wheel in the final package and was just perfect, but it is not pleasant to turn this with bare fingers.
 * Output: Piezo element. The piezo element is included in a small circuit as described at [electroschematics.com](https://www.electroschematics.com/funny-micro-synthesizer/). We used the following parts: <!-- markdown-link-check-disable-line -->
     * Piezo element [SUMMER EPM 121](https://www.reichelt.de/piezo-schallwandler-85-db-4-khz-summer-epm-121-p35927.html?&nbc=1)
@@ -66,7 +66,7 @@ Letters:
 11. SC 1815
 12. L-HBCC 68M
 13. Piezo element SUMMER EPM 121
-14. atmega8 MCU
+14. atmega8 microcontroller
 15. rotary dial KMR 16
 16. PD2 connector (not used)
 17. RXD connector (for uart communication; wasn't used)
