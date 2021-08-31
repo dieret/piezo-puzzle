@@ -1,4 +1,4 @@
-# Piezo Puzzle
+# Piezo Puzzle 🗝️🎹
 
 [![gh actions](https://github.com/dieret/piezo-puzzle/actions/workflows/build.yaml/badge.svg)](https://github.com/dieret/piezo-puzzle/actions)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/dieret/piezo-puzzle/main.svg)](https://results.pre-commit.ci/latest/github/dieret/piezo-puzzle/main)
@@ -6,7 +6,7 @@
 
 An interactive birthday puzzle with a piezo buzzer operated by an atmega8 microcontroller. Different values can be selected on a rotary dial. For each selected value, letter combinations are communicated with morse code. Once their meaning is understood, they can be brought in the right order to get a code. After this code has been entered, three dial values play different birthday songs.
 
-## Description
+# 📝 Description
 
 The dial has 16 values (0 to 15). All odd positions are skipped (and in the final packaging only these will be marked with numbers/letters). On positions 0, 2, 4, 6, 8, a message is transmitted in morse code (`ECC`, `TEN`, `SMI`, `CAP`, `WHI`):
 
@@ -21,7 +21,7 @@ The letter reads "Ask Captain W. Smiten", corresponding to `CAP TEN WHI SMI TEN`
 
 [![Video 3](images/video3_small.png)](https://www.youtube.com/watch?v=Xnw1JbcScsQ)
 
-## Hardware
+# 🔌 Hardware
 
 * microcontroller unit (MCU): atmega8
 * Input: Rotary switch with 16 positions [`KMR 16`](https://www.reichelt.de/dreh-codierschalter-16-polig-mit-vertikal-achse-kmr-16-p9434.html?&nbc=1). Each position "snaps in place". Also note that the torque required to turn this switch is quite high. In our case this was connected to a larger wheel in the final package and was just perfect, but it is not pleasant to turn this with bare fingers.
@@ -46,7 +46,7 @@ Dimensions: Without axis and usb connection 44.5 x 48.35 x 11.5, Offset axis: 5.
 * rotary switch: 6mm + 7.3mm (axis) + 4mm (breadboard + soldering)
 * Breadboard: 44.5 x 48.35 mm (though usb connection protrudes)
 
-## Circuit
+### Circuit
 
 ![picture of breadboard](images/top_with_numbers_small.JPG)
 
@@ -73,7 +73,7 @@ Letters:
 17. `RXD` connector (for uart communication; wasn't used)
 18. `TXD` connector (for uart communication; wasn't used)
 
-## Implementation
+## 💾 Software
 
 * **Constraints**:
   * Code has to fit in 8KB of flash program memory. The current implementation is already pushing towards this limit with ~6KB.
@@ -83,7 +83,7 @@ Letters:
   * **Timing calibration:** To amend this, we have calibrated the time between the toggling to account for delays. Calibration was performed by playing a scale and measuring the frequencies with Audacity. A constant shift of wave lengths was found which is compensated simply by reducing the sleep values in the loop.
   * In retroperspective an interrupt based solution such as shown by [engineersgarage](https://www.engineersgarage.com/waveform-generation-using-avr-microcontroller-atmega16-timers-part-16-46/) would have saved us much trouble.
 
-## Compiling
+### Compiling
 
 You might need to
 
@@ -111,7 +111,7 @@ avrdude: ser_open(): can't open device "/dev/ttyACM0": Device or resource busy
 
 it helps to run `pavr2cmd --status` for some reason.
 
-## Development setup
+### Development setup
 
 ```bash
 sudo apt-get install clang-format
